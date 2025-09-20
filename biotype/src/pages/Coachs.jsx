@@ -10,15 +10,30 @@ const Coachs = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const navigate = useNavigate()
 
-  const applyFilter = () => {
-    const result = coaches.filter(coach => {
-      const types = coach.type.split(',').map(t => t.trim())
-      const matchType = !type || types.includes(type)
-      const matchCategory = selectedCategory === 'All' || coach.category === selectedCategory
-      return matchType && matchCategory
-    })
-    setFilterCoaches(result)
-  }
+ const applyFilter = () => {
+  const result = coaches.filter(coach => {
+    let types = []
+
+    if (typeof coach.type === "string") {
+      types = coach.type.split(",").map(t => t.trim())
+    } else if (Array.isArray(coach.type)) {
+      types = coach.type.map(t => String(t).trim())
+    } else if (coach.type) {
+      types = [String(coach.type).trim()]
+    }
+
+    const matchType = !type || types.includes(type)
+    const matchCategory =
+      selectedCategory === "All" ||
+      coach.category?.toLowerCase().trim() === selectedCategory.toLowerCase().trim()
+
+    return matchType && matchCategory
+  })
+
+  setFilterCoaches(result)
+}
+
+
 
   useEffect(() => {
     applyFilter()

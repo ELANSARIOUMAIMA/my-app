@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const coachSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -16,9 +17,9 @@ const coachSchema = new mongoose.Schema({
     date: { type: Number, required: true },
     slots_bookes: { type: Object, default: {} },
 
-}, { minimize: false })// we add minimize false to use the empty object of slots_bookes
+
+}, { minimize: false })// we add minimize false to use the empty object of slots_bookes {}
+
 
 const coachModel = mongoose.models.coach || mongoose.model('coach', coachSchema)
 export default coachModel
-
-
